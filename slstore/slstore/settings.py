@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Path helper
@@ -20,16 +22,24 @@ location = lambda x: os.path.join(
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
+ADMINS = (
+    ('Nate Aune', 'smallslive@appsembler.com'),
+)
+EMAIL_SUBJECT_PREFIX = '[SmallsLIVE] '
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f*l=wiby-7r8wsn&7l=6_=p*0o#=@d0blksytl)l2avv491!up'
+SECRET_KEY = os.environ.get("SECRET_KEY", "herokudefault")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -45,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'compressor',
     'south',
+    'oscar_stripe',
 ]
 
 SITE_ID = 1
@@ -95,7 +106,10 @@ WSGI_APPLICATION = 'slstore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {'default': dj_database_url.config(default='postgres://nateaune@localhost:5432/smallslivestore')}
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -136,6 +150,14 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+# Django storages / S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SECURE_URLS = False
+AWS_QUERYSTRING_AUTH = False
+
 # ==============
 # Oscar settings
 # ==============
@@ -146,9 +168,9 @@ from oscar.defaults import *
 # ====
 
 OSCAR_SHOP_TAGLINE = 'Sandbox'
-
 OSCAR_RECENTLY_VIEWED_PRODUCTS = 20
 OSCAR_ALLOW_ANON_CHECKOUT = True
+OSCAR_DEFAULT_CURRENCY = "USD"
 
 # This is added to each template context by the core context processor.  It is
 # useful for test/stage/qa sites where you want to show the version of the site
@@ -173,21 +195,35 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Processed': (),
 }
 
+# =================
+# Stripe settings
+# =================
+STRIPE_SECRET_KEY = 'sk_test_SrCBpROYG7Gn8gua98U0y4TK'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_PpbVl9GAeA0b3lTFyhJ6yJpd'
+STRIPE_CURRENCY = 'USD'
+STRIPE_EMAIL = 'smallslive@appsembler.com'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/New_York'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = '/static/'
+LANGUAGES = (
+    ('en-us', 'English'),
+    ('da', 'Danish'),
+    ('de', 'German'),
+    ('el', 'Greek'),
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+    ('it', 'Italian'),
+    ('ja', 'Japanese'),
+    ('pl', 'Polish'),
+    ('pt', 'Portugese'),
+    ('ru', 'Russian'),
+    ('sk', 'Slovakian'),
+)
