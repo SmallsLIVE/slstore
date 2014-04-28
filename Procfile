@@ -1,1 +1,1 @@
-web: gunicorn slstore.wsgi
+web: gunicorn --pythonpath slstore slstore.wsgi
