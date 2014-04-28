@@ -1,5 +1,5 @@
 django-oscar==0.6.4
--e git+git@github.com:labxio/django-oscar-stripe.git#egg=django-oscar-stripe
+-e git+https://github.com/labxio/django-oscar-stripe.git#egg=django-oscar-stripe
 South
 Whoosh
 
