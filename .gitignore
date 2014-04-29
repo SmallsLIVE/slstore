@@ -1,5 +1,7 @@
 *.sqlite3
-public/
+slstore/slstore/public/media/cache/
+slstore/slstore/public/media/images/
+slstore/slstore/public/static/
 *.pyc
 
 # Byte-compiled / optimized / DLL files
