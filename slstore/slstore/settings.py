@@ -198,8 +198,8 @@ OSCAR_ORDER_STATUS_PIPELINE = {
 # =================
 # Stripe settings
 # =================
-STRIPE_SECRET_KEY = 'sk_test_SrCBpROYG7Gn8gua98U0y4TK'
-STRIPE_PUBLISHABLE_KEY = 'pk_test_PpbVl9GAeA0b3lTFyhJ6yJpd'
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
 STRIPE_CURRENCY = 'USD'
 STRIPE_EMAIL = 'smallslive@appsembler.com'
 
