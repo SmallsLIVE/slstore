@@ -227,3 +227,69 @@ LANGUAGES = (
     ('ru', 'Russian'),
     ('sk', 'Slovakian'),
 )
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'oscar_stripe_file': {
+             'level': 'DEBUG',
+             'class': 'logging.FileHandler',
+             'filename': 'oscar_stripe.log',
+             'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['null'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'oscar.checkout': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'django.db.backends': {
+            'handlers':['null'],
+            'propagate': False,
+            'level':'DEBUG',
+        },
+        'oscar_stripe': {
+            'handlers': ['console', 'oscar_stripe_file'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+    }
+}
