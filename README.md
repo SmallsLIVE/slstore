@@ -28,6 +28,7 @@ $ git push heroku master
 $ heroku run python slstore/manage.py syncdb --noinput
 $ heroku run python slstore/manage.py migrate
 $ heroku run python slstore/manage.py loaddata countries.json
+$ heroku run python slstore/manage.py oscar_import_catalogue slstore/fixtures/smallslive-catalog.csv
 $ heroku run python slstore/manage.py createsuperuser
 ```
 
