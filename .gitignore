@@ -2,7 +2,6 @@ db.sqlite3
 db.sqlite
 slstore/slstore/public/media/cache/
 slstore/slstore/public/media/images/
-slstore/slstore/fixtures/images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
