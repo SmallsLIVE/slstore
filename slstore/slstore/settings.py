@@ -142,7 +142,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'oscar.apps.basket.middleware.BasketMiddleware',
 )
 
@@ -170,7 +170,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     # External apps
     'django_extensions',
-    'debug_toolbar',
+#    'debug_toolbar',
     # Apps from oscar
     'paypal',
     'south',
