@@ -25,7 +25,7 @@ urlpatterns += i18n_patterns('',
     (r'^dashboard/paypal/express/', include(express_dashboard.urls)),
     (r'', include(application.urls)),
 )
-if settings.DEBUG:
-    urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += staticfiles_urlpatterns()
+#     urlpatterns += static(
+#         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
