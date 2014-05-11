@@ -27,6 +27,7 @@ else:
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': location("db.sqlite"),
         'ATOMIC_REQUESTS': True,  # Django 1.6+
+        'TIMEOUT': 20,
     }
 }
 ATOMIC_REQUESTS = True
