@@ -2,8 +2,9 @@ django-oscar==0.7.1
 django-oscar-paypal==0.9
 #-e git+https://github.com/tangentlabs/django-oscar-paypal.git#egg=django-oscar-paypal
 #-e git+https://github.com/labxio/django-oscar-stripe.git#egg=django-oscar-stripe
-South
-Whoosh
+South==0.8.4
+Whoosh==2.5.7
+django-extensions==1.3.6
 
 # Heroku
 dj-database-url==0.3.0
