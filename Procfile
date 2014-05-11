@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath slstore slstore.wsgi
+web: python slstore/manage.py update_index; gunicorn --pythonpath slstore slstore.wsgi

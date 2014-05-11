@@ -2,6 +2,7 @@ db.sqlite3
 db.sqlite
 slstore/slstore/public/media/cache/
 slstore/slstore/public/media/images/
+slstore/slstore/whoosh_index/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
