@@ -1,11 +1,10 @@
-from oscar.apps.checkout.app import CheckoutApplication
+from oscar.apps.checkout import app
 
-from oscar_stripe import views
+import views
 
 
-class OverriddenCheckoutApplication(CheckoutApplication):
-    # Specify new view for payment details
+class CheckoutApplication(app.CheckoutApplication):
     payment_details_view = views.PaymentDetailsView
 
 
-application = OverriddenCheckoutApplication()
+application = CheckoutApplication()

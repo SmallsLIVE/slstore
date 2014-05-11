@@ -1,110 +1,23 @@
-"""
-Django settings for slstore project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import dj_database_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-# Path helper
+# Django settings for oscar project.
 PROJECT_DIR = os.path.dirname(__file__)
-location = lambda x: os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), x)
+location = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+DEBUG = True
+TEMPLATE_DEBUG = True
+SQL_DEBUG = True
 
 ADMINS = (
     ('Nate Aune', 'smallslive@appsembler.com'),
 )
+
+MANAGERS = ADMINS
+
 EMAIL_SUBJECT_PREFIX = '[SmallsLIVE] '
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "herokudefault")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.flatpages',
-    'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
-    'compressor',
-    'south',
-    'oscar_stripe',
-]
-
-SITE_ID = 1
-
-from oscar import get_core_apps
-INSTALLED_APPS = INSTALLED_APPS + get_core_apps()
-
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # oscar stuff
-    'oscar.apps.basket.middleware.BasketMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',  # Django 1.5 only
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.request",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    'oscar.apps.search.context_processors.search_form',
-    'oscar.apps.promotions.context_processors.promotions',
-    'oscar.apps.checkout.context_processors.checkout',
-    'oscar.apps.customer.notifications.context_processors.notifications',
-    'oscar.core.context_processors.metadata',
-)
-
-ROOT_URLCONF = 'slstore.urls'
-
-from oscar import OSCAR_MAIN_TEMPLATE_DIR
-TEMPLATE_DIRS = (
-    location('templates'),
-    OSCAR_MAIN_TEMPLATE_DIR,
-)
-
-WSGI_APPLICATION = 'slstore.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 if os.environ.get('DATABASE_URL'):
     DATABASES = {'default': dj_database_url.config(default='postgres://nateaune@localhost:5432/smallslivestore')}
@@ -112,18 +25,59 @@ else:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': location("db.sqlite"),
         'ATOMIC_REQUESTS': True,  # Django 1.6+
     }
 }
+ATOMIC_REQUESTS = True
 
-# Haystack settings
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
-    },
-}
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+TIME_ZONE = 'America/New_York'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'en-us'
+
+USE_TZ = True
+
+gettext_noop = lambda s: s
+LANGUAGES = (
+    ('en-us', gettext_noop('American English')),
+    ('en-gb', gettext_noop('British English')),
+    ('zh-cn', gettext_noop('Simplified Chinese')),
+    ('nl', gettext_noop('Dutch')),
+    ('it', gettext_noop('Italian')),
+    ('pl', gettext_noop('Polish')),
+    ('ru', gettext_noop('Russian')),
+    ('sk', gettext_noop('Slovak')),
+    ('pt-br', gettext_noop('Brazilian Portuguese')),
+    ('fr', gettext_noop('French')),
+    ('de', gettext_noop('German')),
+    ('ko', gettext_noop('Korean')),
+    ('uk', gettext_noop('Ukrainian')),
+    ('es', gettext_noop('Spanish')),
+    ('da', gettext_noop('Danish')),
+    ('ar', gettext_noop('Arabic')),
+    ('ca', gettext_noop('Catalan')),
+    ('cs', gettext_noop('Czech')),
+    ('el', gettext_noop('Greek')),
+)
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
+USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -140,47 +94,113 @@ MEDIA_URL = '/media/'
 #ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = location('public/static')
+STATIC_ROOT = location('public')
+
+
 STATICFILES_DIRS = (
     location('static/'),
 )
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
 
-# Django storages / S3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_SECURE_URLS = False
-AWS_QUERYSTRING_AUTH = False
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = os.environ.get("SECRET_KEY", "herokudefault")
 
-# ==============
-# Oscar settings
-# ==============
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
 
-from oscar.defaults import *
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.request",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    # Oscar specific
+    'oscar.apps.search.context_processors.search_form',
+    'oscar.apps.promotions.context_processors.promotions',
+    'oscar.apps.checkout.context_processors.checkout',
+    'oscar.apps.customer.notifications.context_processors.notifications',
+    'oscar.core.context_processors.metadata',
+)
 
-# Meta
-# ====
+MIDDLEWARE_CLASSES = (
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'oscar.apps.basket.middleware.BasketMiddleware',
+)
 
-OSCAR_SHOP_TAGLINE = 'SmallsLIVE'
-OSCAR_RECENTLY_VIEWED_PRODUCTS = 20
-OSCAR_ALLOW_ANON_CHECKOUT = True
-OSCAR_DEFAULT_CURRENCY = "USD"
+INTERNAL_IPS = ('127.0.0.1',)
 
-# This is added to each template context by the core context processor.  It is
-# useful for test/stage/qa sites where you want to show the version of the site
-# in the page title.
-DISPLAY_VERSION = False
+ROOT_URLCONF = 'slstore.urls'
+
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+TEMPLATE_DIRS = (
+    location('templates'),
+    os.path.join(OSCAR_MAIN_TEMPLATE_DIR, 'templates'),
+    OSCAR_MAIN_TEMPLATE_DIR,
+)
+
+
+INSTALLED_APPS = [
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'django.contrib.flatpages',
+    'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    # External apps
+    'django_extensions',
+    'debug_toolbar',
+    # Apps from oscar
+    'paypal',
+    'south',
+    'compressor'
+]
+
+from oscar import get_core_apps
+INSTALLED_APPS = INSTALLED_APPS + get_core_apps([
+    'slstore.apps.shipping',
+    'slstore.apps.checkout'])
 
 AUTHENTICATION_BACKENDS = (
     'oscar.apps.customer.auth_backends.Emailbackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+LOGIN_REDIRECT_URL = '/accounts/'
+APPEND_SLASH = True
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False
+}
+
+# Oscar settings
+from oscar.defaults import *
+
+OSCAR_SHOP_TAGLINE = 'SmallsLIVE'
+OSCAR_RECENTLY_VIEWED_PRODUCTS = 20
+OSCAR_ALLOW_ANON_CHECKOUT = True
+OSCAR_DEFAULT_CURRENCY = "USD"
 
 # Order processing
 # ================
@@ -195,38 +215,69 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Processed': (),
 }
 
-# =================
-# Stripe settings
-# =================
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
-STRIPE_CURRENCY = 'USD'
-STRIPE_EMAIL = 'smallslive@appsembler.com'
+# Taken from PayPal's documentation - these should always work in the sandbox
+PAYPAL_SANDBOX_MODE = True
+PAYPAL_CALLBACK_HTTPS = False
+PAYPAL_API_VERSION = '88.0'
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
+# These are the standard PayPal sandbox details from the docs - but I don't
+# think you can get access to the merchant dashboard.
+PAYPAL_API_USERNAME = os.environ.get("PAYPAL_API_USERNAME", "")
+PAYPAL_API_PASSWORD = os.environ.get("PAYPAL_API_PASSWORD", "")
+PAYPAL_API_SIGNATURE = os.environ.get("PAYPAL_API_SIGNATURE", "")
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'America/New_York'
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
 
-LANGUAGES = (
-    ('en-us', 'English'),
-    ('da', 'Danish'),
-    ('de', 'German'),
-    ('el', 'Greek'),
-    ('en', 'English'),
-    ('es', 'Spanish'),
-    ('fr', 'French'),
-    ('it', 'Italian'),
-    ('ja', 'Japanese'),
-    ('pl', 'Polish'),
-    ('pt', 'Portugese'),
-    ('ru', 'Russian'),
-    ('sk', 'Slovakian'),
-)
+# Standard currency is GBP
+PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'USD'
+
+PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
+
+# Add Payflow dashboard stuff to settings
+from django.utils.translation import ugettext_lazy as _
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': _('PayPal'),
+        'icon': 'icon-globe',
+        'children': [
+            {
+                'label': _('PayFlow transactions'),
+                'url_name': 'paypal-payflow-list',
+            },
+            {
+                'label': _('Express transactions'),
+                'url_name': 'paypal-express-list',
+            },
+        ]
+    })
+
+
+# Haystack settings
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+#     },
+# }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
+
+ALLOWED_HOSTS = ['*']
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Django storages / S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SECURE_URLS = False
+AWS_QUERYSTRING_AUTH = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -246,19 +297,13 @@ LOGGING = {
     },
     'handlers': {
         'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose'
-        },
-        'oscar_stripe_file': {
-             'level': 'DEBUG',
-             'class': 'logging.FileHandler',
-             'filename': 'oscar_stripe.log',
-             'formatter': 'verbose'
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -267,9 +312,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['null'],
+            'handlers': ['null'],
             'propagate': True,
-            'level':'INFO',
+            'level': 'INFO',
         },
         'django.request': {
             'handlers': ['mail_admins'],
@@ -279,17 +324,30 @@ LOGGING = {
         'oscar.checkout': {
             'handlers': ['console'],
             'propagate': True,
-            'level':'INFO',
+            'level': 'INFO',
         },
         'django.db.backends': {
-            'handlers':['null'],
+            'handlers': ['null'],
             'propagate': False,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
-        'oscar_stripe': {
-            'handlers': ['console', 'oscar_stripe_file'],
+        'paypal.express': {
+            'handlers': ['console'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
+        },
+        'paypal.payflow': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
         },
     }
 }
+
+# Put your own sandbox settings into an integration.py modulde (that is ignored
+# by git).
+try:
+    from integration import *
+except ImportError:
+    pass
+

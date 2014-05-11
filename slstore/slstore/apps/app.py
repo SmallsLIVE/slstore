@@ -1,10 +1,10 @@
 from oscar.app import Shop
-from checkout.app import application as checkout_app
+
+from .checkout.app import application as checkout_app
 
 
-class StripeShop(Shop):
-    # Specify a local checkout app where we override the payment details view
+class PayPalShop(Shop):
     checkout_app = checkout_app
 
 
-shop = StripeShop()
+application = PayPalShop()

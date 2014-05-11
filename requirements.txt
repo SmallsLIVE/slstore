@@ -1,5 +1,7 @@
-django-oscar==0.7
--e git+https://github.com/labxio/django-oscar-stripe.git#egg=django-oscar-stripe
+django-oscar==0.7.1
+django-oscar-paypal==0.9
+#-e git+https://github.com/tangentlabs/django-oscar-paypal.git#egg=django-oscar-paypal
+#-e git+https://github.com/labxio/django-oscar-stripe.git#egg=django-oscar-stripe
 South
 Whoosh
 
