@@ -202,6 +202,7 @@ OSCAR_SHOP_TAGLINE = 'SmallsLIVE'
 OSCAR_RECENTLY_VIEWED_PRODUCTS = 20
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_DEFAULT_CURRENCY = "USD"
+OSCAR_FROM_EMAIL = "smallslive@appsembler.com"
 
 # Order processing
 # ================
