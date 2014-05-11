@@ -5,6 +5,7 @@ django-oscar-paypal==0.9
 South==0.8.4
 Whoosh==2.5.7
 django-extensions==1.3.6
+django-debug-toolbar==1.2
 
 # Heroku
 dj-database-url==0.3.0
