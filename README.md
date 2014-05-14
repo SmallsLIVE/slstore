@@ -11,6 +11,10 @@ $ workon slstore
 $ pip install -r requirements.txt
 $ python manage.py syncdb
 $ python manage.py migrate
+$ python manage.py loaddata slstore/fixtures/countries.json
+$ python manage.py oscar_import_catalogue slstore/fixtures/complete-smallslive-catalog.csv
+$ python manage.py oscar_import_catalogue_images slstore/fixtures/images
+$ python manage.py update_index
 $ python manage.py runserver
 ```
 
