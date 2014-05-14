@@ -3,7 +3,10 @@ slstore
 
 SmallsLIVE store
 
-To run locally:
+To run locally
+--------------
+
+These instructions are assuming that you've installed virtualenv and virtualenvwrapper.
 
 ```
 $ mkvirtualenv slstore
@@ -18,7 +21,23 @@ $ python manage.py update_index
 $ python manage.py runserver
 ```
 
-To deploy to Heroku:
+You'll also need to set some environment variables. The easiest way to do this is to add these lines to the file `~/.virtualenvs/slstore/bin/postactivate`:
+
+```
+export AWS_ACCESS_KEY_ID='yourkey'
+export AWS_SECRET_ACCESS_KEY='yourkey'
+export AWS_STORAGE_BUCKET_NAME='yourbucketname'
+export PAYPAL_API_PASSWORD='yourpassword'
+export PAYPAL_API_SIGNATURE='yourapisig'
+export PAYPAL_API_USERNAME='yourapiusername'
+export STRIPE_PUBLIC_KEY='yourkey'
+export STRIPE_SECRET_KEY='yourkey'
+```
+
+And then re-run `workon slstore` to run the postactivate script.
+
+To deploy to Heroku
+-------------------
 
 ```
 $ heroku create slstore
@@ -40,3 +59,5 @@ $ heroku run python slstore/manage.py oscar_import_catalogue_images slstore/slst
 $ heroku run python slstore/manage.py update_index
 $ heroku run python slstore/manage.py createsuperuser
 ```
+
+You only need to run the `config:set` commands once, the first time you deploy. These values will persist for subsequent deploys.
