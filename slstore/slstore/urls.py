@@ -16,6 +16,7 @@ urlpatterns = patterns(
     '',
     (r'^admin/', include(admin.site.urls)),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^subscription/', include('slstore.subscription.urls', namespace='subscription')),
 )
 urlpatterns += i18n_patterns('',
     # PayPal Express integration...

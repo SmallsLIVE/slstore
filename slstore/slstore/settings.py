@@ -175,7 +175,8 @@ INSTALLED_APPS = [
     # Apps from oscar
     'paypal',
     'south',
-    'compressor'
+    'compressor',
+    'slstore.subscription',
 ]
 
 from oscar import get_core_apps
@@ -228,6 +229,7 @@ PAYPAL_API_USERNAME = os.environ.get("PAYPAL_API_USERNAME", "")
 PAYPAL_API_PASSWORD = os.environ.get("PAYPAL_API_PASSWORD", "")
 PAYPAL_API_SIGNATURE = os.environ.get("PAYPAL_API_SIGNATURE", "")
 
+SITE_CURRENCY = 'USD'
 
 # Standard currency is GBP
 PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'USD'
